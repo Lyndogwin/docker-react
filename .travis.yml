@@ -11,6 +11,7 @@ script:
   - docker run -e CI=true lyndogwin/docker-react npm run test # https://create-react-app.dev/docs/running-tests/#linux-macos-bash 
 
 deploy:
+  # Note: elastic will use the default Dockerfile for the deployment
   provider: elasticbeanstalk
   region: "us-east-2" # http://dockerreact-env.eba-bkhnqmpw.us-east-2.elasticbeanstalk.com/
   app: "docker-react"
