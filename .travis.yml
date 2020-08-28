@@ -3,9 +3,23 @@ sudo: required
 services:
   - docker
 
+# build image
 before_install:
   - docker build -t lyndogwin/docker-react -f Dockerfile.dev . # any tag can be used here
-
+# test in de env (container)
 script:
   - docker run -e CI=true lyndogwin/docker-react npm run test # https://create-react-app.dev/docs/running-tests/#linux-macos-bash 
-  
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2" # http://dockerreact-env.eba-bkhnqmpw.us-east-2.elasticbeanstalk.com/
+  app: "docker-react"
+  env: "DockerReact-env"
+  # s3 bucket on aws (aws volume I believe)
+  bucket_name: "elasticbeanstalk-us-east-2-179220408535" # https://s3.console.aws.amazon.com/s3/buckets/elasticbeanstalk-us-east-2-179220408535/?region=us-east-2&tab=overview
+  bucket_path: "docker-react" # should be the same as the app by default
+  on:
+    branch: master # only deply when changes to master are detected.
+
+  access_key_id: $AWS_BEAN_ACCESS_KEY # Travis CI env variable in repo build
+  secret_access_key: $AWS_BEAN_SECRET_KEY # Travis CI env variable in repo build
