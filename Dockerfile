@@ -8,6 +8,9 @@ RUN npm run build
 # -----------------------------------
 
 FROM nginx
+# next line doesn't do anything in local env
+# Elasticbeanstalk will map to this port in the container
+EXPOSE 80 
 # Copy only the static files that were built by npm run build
 COPY --from=builder /app/build /usr/share/nginx/html 
 
