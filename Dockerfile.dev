@@ -5,6 +5,9 @@ WORKDIR '/app'
 COPY package.json .
 RUN npm install
 
-COPY . .
+# <COPY . .> is not necessary for the build env that uses 
+# volumes. However, we are keeping this for reference in the
+# production env.
+COPY . . 
 
 CMD ["npm","run", "start"]
